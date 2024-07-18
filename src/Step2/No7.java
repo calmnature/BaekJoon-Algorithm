@@ -1,4 +1,4 @@
-package Step02;
+package Step2;
 
 import java.util.Arrays;
 import java.util.Scanner;
@@ -20,7 +20,7 @@ public class No7 {
         scan.close();
         int max = Arrays.stream(A).max().getAsInt(); // 배열에서 가장 높은 값 저장
         int diceValue = searchDiceValue(A, max); // 계산할 dice 값 추출 함수
-        int res = 0;
+        int res;
         if(max == 1)
             res = diceValue * 100;
         else if(max == 2)
