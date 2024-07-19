@@ -5,7 +5,18 @@ import java.io.InputStreamReader;
 import java.util.Map;
 import java.util.TreeMap;
 
+/*
+    - 문제 접근
+        - 확장자를 기준으로 확장자 이름과 해당 확장자가 몇 개인지 출력
+        - 무조건 온점( . )으로 확장자 구분
+        - 확장자의 이름 순으로 내림차순 정렬
+* */
 public class No20291 {
+    /*
+        - 문제 해결
+        - 트리맵으로 쉽게 풀릴 것 같음
+        - N번만큼 반복문을 돌려서 확장자를 Map에 추가, 존재한다면 Value를 1증가
+    * */
     public static void main(String[] args) throws Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int fileCount = Integer.parseInt(br.readLine());
