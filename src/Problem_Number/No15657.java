@@ -2,6 +2,8 @@ package Problem_Number;
 
 import java.io.*;
 import java.util.*;
+import java.util.stream.IntStream;
+
 /*
     - **문제 접근**
         - 앞의 인덱스는 출력하지 않고, 자기 자신은 출력
@@ -19,12 +21,12 @@ public class No15657 {
 
     public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        numCount = Integer.parseInt(st.nextToken()); length = Integer.parseInt(st.nextToken());
+        int[] input = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
+        numCount = input[0]; length = input[1];
         arr = new int[length];
 
-        st = new StringTokenizer(br.readLine());
-        for (int i = 0; i < numCount; i++) numList.add(Integer.parseInt(st.nextToken()));
+        input = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
+        for (int i = 0; i < numCount; i++) numList.add(input[i]);
         Collections.sort(numList);
 
         DFS(0, 0);
@@ -34,14 +36,15 @@ public class No15657 {
 
     private static void DFS(int start, int depth){
         if(depth == length){
-            for(int num : arr) sb.append(num).append(" ");
+            Arrays.stream(arr).forEach(num -> sb.append(num).append(" "));
             sb.append("\n");
             return;
         }
 
-        for(int i = start; i < numCount; i++){
-            arr[depth] = numList.get(i);
-            DFS(i, depth + 1);
-        }
+        IntStream.range(start, numCount)
+                .forEach(i -> {
+                    arr[depth] = numList.get(i);
+                    DFS(i, depth + 1);
+                });
     }
 }
