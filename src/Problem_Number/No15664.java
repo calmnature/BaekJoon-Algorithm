@@ -2,6 +2,8 @@ package Problem_Number;
 
 import java.io.*;
 import java.util.*;
+import java.util.stream.IntStream;
+
 /*
     - **문제 접근**
         - 이전 인덱스와 자기 자신을 포함하지 않음
@@ -20,12 +22,12 @@ public class No15664 {
 
     public static void main(String[] args) throws Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        numCount = Integer.parseInt(st.nextToken()); length = Integer.parseInt(st.nextToken());
+        int[] input = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
+        numCount = input[0]; length = input[1];
 
         arr = new int[length];
-        st = new StringTokenizer(br.readLine());
-        for(int i = 0; i < numCount; i++) numList.add(Integer.parseInt(st.nextToken()));
+        input = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
+        for(int i = 0; i < numCount; i++) numList.add(input[i]);
         Collections.sort(numList);
 
         DFS(0, 0);
@@ -36,15 +38,16 @@ public class No15664 {
     private static void DFS(int start, int depth){
         if(depth == length){
             StringBuilder tmp = new StringBuilder();
-            for(int num : arr) tmp.append(num).append(" ");
+            Arrays.stream(arr).forEach(num -> tmp.append(num).append(" "));
             tmp.append("\n");
             if(numSet.add(tmp.toString())) sb.append(tmp);
             return;
         }
 
-        for(int i = start; i < numCount; i++){
-            arr[depth] = numList.get(i);
-            DFS(i + 1, depth + 1);
-        }
+        IntStream.range(start, numCount)
+                .forEach(i -> {
+                    arr[depth] = numList.get(i);
+                    DFS(i + 1, depth + 1);
+                });
     }
 }
