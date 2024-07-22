@@ -2,6 +2,7 @@ package Problem_Number;
 
 import java.io.*;
 import java.util.*;
+import java.util.stream.*;
 
 // 앞에 있는 숫자를 시작으로 N까지 출력
 public class No15652 {
@@ -17,8 +18,8 @@ public class No15652 {
     static int[] arr;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        numCount = Integer.parseInt(st.nextToken()); length = Integer.parseInt(st.nextToken());
+        int[] input = Arrays.stream((br.readLine().split(" "))).mapToInt(Integer::parseInt).toArray();
+        numCount = input[0]; length = input[1];
         arr = new int[length];
         DFS(1, 0);
         System.out.println(sb);
@@ -26,13 +27,14 @@ public class No15652 {
 
     private static void DFS(int start, int depth){
         if(depth == length){
-            for(int num : arr) sb.append(num).append(" ");
+            Arrays.stream(arr).forEach(num -> sb.append(num).append(" "));
             sb.append("\n");
             return;
         }
-        for(int i = start; i <= numCount; i++){
-            arr[depth] = i;
-            DFS(i, depth + 1);
-        }
+        IntStream.range(start, numCount + 1)
+                .forEach(i -> {
+                    arr[depth] = i;
+                    DFS(i, depth + 1);
+                });
     }
 }
