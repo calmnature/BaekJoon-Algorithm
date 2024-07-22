@@ -2,48 +2,42 @@ package Problem_Number;
 
 import java.io.*;
 import java.util.*;
-/*
-    - **문제 접근**
-        - 같은 수를 여러 번 골라도 되지만, 중복 수열은 출력해선 안 됨
-* */
+
 public class No15665 {
-    /*
-        - **문제 해결**
-            - i = 0 ~ N 까지 모든 경우의 수 출력
-    * */
     static StringBuilder sb = new StringBuilder();
     static int numCount, length;
     static int[] arr;
     static List<Integer> numList = new ArrayList<>();
-    static Set<String> numSet = new HashSet<>();
 
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        numCount = Integer.parseInt(st.nextToken()); length = Integer.parseInt(st.nextToken());
+        numCount = Integer.parseInt(st.nextToken());
+        length = Integer.parseInt(st.nextToken());
 
         arr = new int[length];
         st = new StringTokenizer(br.readLine());
-        for(int i = 0; i < numCount; i++) numList.add(Integer.parseInt(st.nextToken()));
+        for (int i = 0; i < numCount; i++) numList.add(Integer.parseInt(st.nextToken()));
         Collections.sort(numList);
-
         DFS(0);
-
         System.out.println(sb);
     }
 
-    private static void DFS(int depth){
-        if(depth == length){
-            StringBuilder tmp = new StringBuilder();
-            for(int num : arr) tmp.append(num).append(" ");
-            tmp.append("\n");
-            if(numSet.add(tmp.toString())) sb.append(tmp);
+    private static void DFS(int depth) {
+        if (depth == length) {
+            for (int num : arr) sb.append(num).append(" ");
+            sb.append("\n");
             return;
         }
 
-        for(int i = 0; i < numCount; i++){
-            arr[depth] = numList.get(i);
-            DFS(depth + 1);
+        int lastUsed = -1;
+        for (int i = 0; i < numCount; i++) {
+            int current = numList.get(i);
+            if (current != lastUsed) { // 현재 숫자가 마지막에 사용된 숫자와 같지 않다면
+                arr[depth] = current; // 현재 dpeth번방에 현재 숫자를 넣음
+                DFS(depth + 1);
+                lastUsed = current; // 재귀 종료 후, 마지막 사용된 숫자에 현재 숫자를 저장
+            }
         }
     }
 }
