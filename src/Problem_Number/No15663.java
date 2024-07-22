@@ -2,6 +2,8 @@ package Problem_Number;
 
 import java.io.*;
 import java.util.*;
+import java.util.stream.IntStream;
+
 /*
     - **문제 접근**
         - 1 ~ 8번 시리즈와는 다르게 겹치는 숫자가 주어짐
@@ -23,12 +25,12 @@ public class No15663 {
 
     public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        numCount = Integer.parseInt(st.nextToken()); length = Integer.parseInt(st.nextToken());
+        int[] input = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
+        numCount = input[0]; length = input[1];
         visited = new boolean[numCount]; arr = new int[length];
 
-        st = new StringTokenizer(br.readLine());
-        for (int i = 0; i < numCount; i++) numList.add(Integer.parseInt(st.nextToken()));
+        input = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
+        for (int i = 0; i < numCount; i++) numList.add(input[i]);
         Collections.sort(numList);
 
         DFS( 0);
@@ -40,8 +42,9 @@ public class No15663 {
         if(depth == length){
             // 문자열이 존재하는 지 확인하기 위해 임시 StringBuilder에 추가
             StringBuilder tmp = new StringBuilder();
-            for(int num : arr) tmp.append(num).append(" ");
+            Arrays.stream(arr).forEach(num -> tmp.append(num).append(" "));
             tmp.append("\n");
+
             // 해당 문자열이 Set에 없다면 중복되지 않음
             if(!sequenceSet.contains(tmp.toString())){
                 sequenceSet.add(tmp.toString()); // Set에 추가하여 중복 체크
@@ -50,13 +53,13 @@ public class No15663 {
             return;
         }
 
-        for(int i = 0; i < numCount; i++){
-            if(!visited[i]){
-                visited[i] = true;
-                arr[depth] = numList.get(i);
-                DFS(depth + 1);
-                visited[i] = false;
-            }
-        }
+        IntStream.range(0, numCount)
+                .filter(i -> !visited[i])
+                .forEach(i -> {
+                    visited[i] = true;
+                    arr[depth] = numList.get(i);
+                    DFS(depth + 1);
+                    visited[i] = false;
+                });
     }
 }
