@@ -28,8 +28,7 @@ public class No25192 {
                 // 입장 시 곰곰티콘 새로 카운트해야 하기 때문에
                 // Set을 클리어해서 새로 유저를 등록
                 greetingUser.clear();
-            } else if(!greetingUser.contains(input)){ // Set에 없을 경우
-                greetingUser.add(input); // 유저 추가
+            } else if(greetingUser.add(input)){ // 셋에 없을 경우 true 반환
                 GomGomCount++; // 곰곰티콘 인사
             }
         }
