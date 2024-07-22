@@ -2,6 +2,7 @@ package Problem_Number;
 
 import java.io.*;
 import java.util.*;
+import java.util.stream.*;
 
 /*
     - **문제 접근**
@@ -21,13 +22,13 @@ public class No15654 {
     static List<Integer> numList = new ArrayList<>();
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        numCount = Integer.parseInt(st.nextToken()); length = Integer.parseInt(st.nextToken());
+        int[] input = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
+        numCount = input[0]; length = input[1];
         visited = new boolean[numCount]; arr = new int[length];
-        st = new StringTokenizer(br.readLine());
 
         // List에 값 추가
-        for (int i = 0; i < numCount; i++) numList.add(Integer.parseInt(st.nextToken()));
+        input = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
+        for (int i = 0; i < numCount; i++) numList.add(input[i]);
         // 오름차순 출력을 위해 List 정렬
         Collections.sort(numList);
 
@@ -38,18 +39,18 @@ public class No15654 {
 
     private static void DFS(int depth){
         if(depth == length){
-            for(int num : arr) sb.append(num).append(" ");
+            Arrays.stream(arr).forEach(num -> sb.append(num).append(" "));
             sb.append("\n");
             return;
         }
 
-        for(int i = 0; i < numCount; i++){
-            if(!visited[i]){
-                visited[i] = true;
-                arr[depth] = numList.get(i);
-                DFS(depth + 1);
-                visited[i] = false;
-            }
-        }
+        IntStream.range(0, numCount)
+                .filter(i -> !visited[i])
+                .forEach(i -> {
+                    visited[i] = true;
+                    arr[depth] = numList.get(i);
+                    DFS(depth + 1);
+                    visited[i] = false;
+                });
     }
 }
