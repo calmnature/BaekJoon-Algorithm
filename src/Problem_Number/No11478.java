@@ -1,27 +1,34 @@
 package Problem_Number;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.HashSet;
-import java.util.Set;
+import java.io.*;
+import java.util.*;
 
-/*
-    - 문자열을 입력 받아 1개 ~ 문자열 길이까지의 모든 문자열을 저장
-    - 단, 겹치는 문자열은 제외하고 서로 다른 것의 개수만 출력
-* */
 public class No11478 {
-    // Set을 이용하여 모든 경우의 수 저장
     public static void main(String[] args) throws Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        Set<String> stringSet = new HashSet<>();
         String str = br.readLine();
-        Set<String> subSet = new HashSet<>();
-        for(int start = 0; start < str.length(); start++){
-            for(int end = start + 1; end <= str.length(); end++){
-                // end = start를 하게 되면, [0,0]일 때 공백이 Set에 저장되어 1개가 더 카운팅
-                // substring의 endIndex는 포함되지 않아 end는 문자열 길이까지
-                subSet.add(str.substring(start, end));
+        // 슬라이딩 윈도우 도전
+        int size = 1;
+        while(size <= str.length()){
+            StringBuilder sb = new StringBuilder();
+            int start = 0, end = size;
+            // str의 0 ~ end-1까지 substring하여 StringBuilder에 추가 -> 최초 윈도우
+            sb.append(str, start, end);
+            // 최초 윈도우의 값 Set에 저장
+            stringSet.add(sb.toString());
+            while(end < str.length()) {
+                // StringBuilder의 가장 첫 번째값 삭제
+                sb.deleteCharAt(0);
+                // StringBuilder에 문자열의 end번째 값 추가
+                // substring은 endIndex를 포함하지 않기 때문에, end번째 인덱스의 값을 추가하고 후증가
+                sb.append(str.charAt(end++));
+                // 앞에 한 개 지우고, 뒤에 한 개 추가한 부분 문자열 Set에 저장
+                stringSet.add(sb.toString());
             }
+            size++; // 슬라이딩 윈도우 크기 증가
         }
-        System.out.println(subSet.size());
+
+        System.out.println(stringSet.size());
     }
 }
