@@ -41,13 +41,16 @@ public class No18870 {
             set.add(arr[i]);
 
         // Set -> List로 변환 후 오름차순 정렬
-        List<Integer> coordinateList = new ArrayList<>(set);
-        Collections.sort(coordinateList);
+        int[] nonDuplicate = new int[set.size()];
+        int idx = 0;
+        for(int num : set)
+            nonDuplicate[idx++] = num;
+        heapsort(nonDuplicate);
 
         // 이전 좌표
         int prevCoordinate = 0;
         // List에 있는 값을 순차적으로 Value를 넣고 1씩 증가
-        for(int key : coordinateList)
+        for(int key : nonDuplicate)
             compressMap.put(key, prevCoordinate++);
 
         // 결과 저장
@@ -55,5 +58,49 @@ public class No18870 {
             sb.append(compressMap.get(arr[i])).append(" ");
 
         System.out.println(sb);
+    }
+
+    private static void heapsort(int[] arr) {
+        int size = arr.length;
+        if(size < 2) return;
+
+        int parentIdx = getParent(size);
+        for(int i = parentIdx; i >= 0; i--){
+            heapify(arr, i, size - 1);
+        }
+
+        for(int i = size - 1; i > 0; i--){
+            swap(arr, i, 0);
+            heapify(arr, 0, i - 1);
+        }
+    }
+
+    private static void heapify(int[] arr, int parentIdx, int lastIndex) {
+        while(parentIdx * 2 + 1 <= lastIndex){
+            int leftChildIdx = parentIdx * 2 + 1;
+            int rightChildIdx = parentIdx * 2 + 2;
+            int largestIdx = parentIdx;
+
+            if(arr[leftChildIdx] > arr[largestIdx])
+                largestIdx = leftChildIdx;
+
+            if(rightChildIdx <= lastIndex && arr[rightChildIdx] > arr[largestIdx])
+                largestIdx = rightChildIdx;
+
+            if(parentIdx != largestIdx){
+                swap(arr, parentIdx, largestIdx);
+                parentIdx = largestIdx;
+            } else return;
+        }
+    }
+
+    private static void swap(int[] arr, int idx1, int idx2) {
+        int tmp = arr[idx1];
+        arr[idx1] = arr[idx2];
+        arr[idx2] = tmp;
+    }
+
+    private static int getParent(int idx) {
+        return (idx - 1) / 2;
     }
 }
