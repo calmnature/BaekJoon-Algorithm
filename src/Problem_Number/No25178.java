@@ -2,7 +2,26 @@ package Problem_Number;
 
 import java.io.*;
 
+/*
+    - **문제 접근**
+        - 조건
+            - 해당 단어의 내에서 재 배열
+            - 첫글자와 마지막 글자는 동일
+            - 각 단어의 모음을 제거 시 문자열이 동일해야 함
+        - 입력
+            - 단어의 길이
+            - 문자열1
+            - 문자열2
+        - 출력 ⇒ 조건 만족 시 YES, 불만족 시 NO
+* */
 public class No25178 {
+    /*
+        - **문제 해결**
+            - 첫 번째와 마지막 글자가 동일한 지 확인하는 메서드
+            - 모음의 개수를 카운팅 하는 메서드 → 단어 내에서 재배열
+                - 단어 내에서 재배열이기 때문에 원래 문자열에 a가 1개 있는데 비교할 문자열에 a가 2개 있어서는 안 됨
+            - 모음을 모두 제거 했을 때 문자열이 동일한 지 확인하는 메서드 → 모음 제거 시 동일
+    * */
     static int length;
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
