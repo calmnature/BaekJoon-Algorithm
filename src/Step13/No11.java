@@ -1,4 +1,4 @@
-package Problem_Number;
+package Step13;
 
 import java.io.*;
 import java.util.*;
@@ -9,7 +9,7 @@ import java.util.*;
         - **N은 최대 100만**개의 숫자가 주어질 수 있으므로 **시간 복잡도가 O(N$^2$)인 알고리즘을 선택 시** **1조번 연산(10000초)가 되어 시간 초과**가 나올 것
         - 출력 ⇒ 압축한 좌표를 공백으로 출력
 * */
-public class No18870 {
+public class No11 {
     /*
         - **문제 해결**
             - 입력받은 X좌표를 오름차순으로 정렬
