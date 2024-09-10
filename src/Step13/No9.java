@@ -1,4 +1,4 @@
-package Problem_Number;
+package Step13;
 
 import java.io.*;
 import java.util.*;
@@ -8,7 +8,7 @@ import java.util.*;
         - 중복된 단어는 1번만 출력
         - 최대 길이는 20,000으로 시간복잡도가 O(n^2) 알고리즘일 경우 4억번의 연산(4초)로 시간 초과 예상
 * */
-public class No1181 {
+public class No9 {
     /*
         - **문제 해결**
             - 중복 단어가 있기 때문에 Set으로 중복 제거 또는 Stream을 이용한 배열 중복 제거 후 정렬
