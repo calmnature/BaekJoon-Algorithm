@@ -2,6 +2,8 @@ package Step14;
 
 import java.io.*;
 import java.util.*;
+import java.util.stream.Collectors;
+
 /*
     문제 접근
         입력
@@ -19,26 +21,22 @@ public class No1 {
             주어진 숫자 카드(넷째 줄)을 M번 반복하여 Set에 있으면 1, 없으면 0을 StringBuilder에 추가하여 출력
     * */
     public static void main(String[] args) throws IOException{
-        Set<Integer> numberSet = new HashSet<>();
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
 
-        int N = Integer.parseInt(br.readLine());
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        for(int i = 0; i < N; i++){
-            numberSet.add(Integer.parseInt(st.nextToken()));
-        }
+        br.readLine();
+        Set<Integer> numberSet = Arrays.stream(br.readLine().split(" "))
+                .map(Integer::parseInt)
+                .collect(Collectors.toSet());
 
-        int M = Integer.parseInt(br.readLine());
-        st = new StringTokenizer(br.readLine());
-        for(int i = 0; i < M; i++){
-            int number = Integer.parseInt(st.nextToken());
-            if(numberSet.contains(number))
-                sb.append("1").append(" ");
-            else
-                sb.append("0").append(" ");
-        }
-        sb.deleteCharAt(sb.length() - 1);
+        br.readLine();
+        int[] compare = Arrays.stream(br.readLine().split(" "))
+                .mapToInt(Integer::parseInt)
+                .toArray();
+
+        Arrays.stream(compare)
+                .mapToObj(i -> numberSet.contains(i) ? "1" : "0")
+                .forEach(res -> sb.append(res).append(" "));
 
         System.out.println(sb);
     }
