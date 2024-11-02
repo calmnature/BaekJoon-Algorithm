@@ -1,9 +1,8 @@
 package Step14;
 
 import java.io.*;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.*;
 
 /*
     문제 접근
@@ -29,12 +28,14 @@ public class No2 {
 
         int N = input[0], M = input[1];
 
-        Set<String> S = new HashSet<>();
-        for(int i = 0; i < N; i++) S.add(br.readLine());
+        Set<String> S = br.lines()
+                .limit(N)
+                .collect(Collectors.toSet());
 
-        int cnt = 0;
-        for(int i = 0; i < M; i++)
-            if(S.contains(br.readLine())) cnt++;
+        long cnt = br.lines()
+                .limit(M)
+                .filter(S::contains)
+                .count();
 
         System.out.println(cnt);
     }
