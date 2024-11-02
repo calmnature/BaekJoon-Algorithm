@@ -2,6 +2,7 @@ package Step14;
 
 import java.io.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /*
     문제 접근
@@ -21,7 +22,6 @@ public class No3 {
             - Map<String, Integer>로 "직원이름 : 출입여부" → 0 : 출근, 1 : 퇴근으로 최종적으로 0인 직원만 출력을 하게 되면 출근하지 않은 직원까지 체크가 가능
     * */
     public static void main(String[] args) throws IOException {
-        StringBuilder sb = new StringBuilder();
         Map<String, Integer> logMap = new TreeMap<>(Collections.reverseOrder());
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
@@ -31,11 +31,11 @@ public class No3 {
             logMap.put(log[0], log[1].equals("enter") ? 0 : 1);
         }
 
-        for(Map.Entry<String, Integer> entry : logMap.entrySet()){
-            if(entry.getValue() == 0)
-                sb.append(entry.getKey()).append("\n");
-        }
+        String result = logMap.entrySet().stream()
+                        .filter(entry -> entry.getValue() == 0)
+                        .map(Map.Entry::getKey)
+                        .collect(Collectors.joining("\n"));
 
-        System.out.println(sb);
+        System.out.println(result);
     }
 }
