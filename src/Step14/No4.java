@@ -2,6 +2,7 @@ package Step14;
 
 import java.io.*;
 import java.util.*;
+import java.util.stream.*;
 
 /*
     문제 접근
@@ -27,15 +28,21 @@ public class No4 {
     public static void main(String[] args) throws IOException {
         StringBuilder sb = new StringBuilder();
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        Map<Integer, String> numberMap = new HashMap<>();
-        Map<String, Integer> alphaMap = new HashMap<>();
 
         String[] input = br.readLine().split(" ");
         int N = Integer.parseInt(input[0]), M = Integer.parseInt(input[1]);
 
-        int idx = 1;
-        for(int i = 0; i < N; i++) numberMap.put(idx++, br.readLine());
-        for(int i = 1; i <= N; i++) alphaMap.put(numberMap.get(i), i);
+        List<String> nameList = br.lines()
+                .limit(N)
+                .collect(Collectors.toList());
+
+        Map<Integer, String> numberMap = IntStream.range(0, N)
+                .boxed()
+                .collect(Collectors.toMap(i -> i + 1, nameList::get));
+
+        Map<String, Integer> alphaMap = IntStream.range(0, N)
+                .boxed()
+                .collect(Collectors.toMap(nameList::get, i -> i + 1));
 
         for(int i = 0; i < M; i++){
             String problem = br.readLine();
