@@ -21,22 +21,28 @@ public class No5 {
             - 방법2) Map을 이용하여 디폴트 값을 0으로 잡고, 중복된 Key값(숫자 카드)가 들어오면 Value += 1
     * */
     public static void main(String[] args) throws IOException {
+        Map<Integer, Integer> cardMap = new HashMap<>();
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
 
         int N = Integer.parseInt(br.readLine());
-        int[] sangCard = new int[20000001];
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        for(int i = 1; i <= N; i++){
-            int number = Integer.parseInt(st.nextToken());
-            sangCard[number + 10000000]++;
+        int[] sangCard = Arrays.stream(br.readLine().split(" "))
+                .mapToInt(Integer::parseInt)
+                .toArray();
+        for(int i = 0; i < N; i++){
+            if(cardMap.containsKey(sangCard[i])){
+                cardMap.put(sangCard[i], cardMap.get(sangCard[i]) + 1);
+            } else {
+                cardMap.put(sangCard[i], 1);
+            }
         }
 
         int M = Integer.parseInt(br.readLine());
-        st = new StringTokenizer(br.readLine());
+        int[] compareCard = Arrays.stream(br.readLine().split(" "))
+                .mapToInt(Integer::parseInt)
+                .toArray();
         for(int i = 0; i < M; i++){
-            int number = Integer.parseInt(st.nextToken());
-            sb.append(sangCard[number + 10000000]).append(" ");
+            sb.append(cardMap.getOrDefault(compareCard[i], 0)).append(" ");
         }
 
         sb.deleteCharAt(sb.length() - 1);
