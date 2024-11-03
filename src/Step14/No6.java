@@ -2,6 +2,7 @@ package Step14;
 
 import java.io.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /*
     문제 접근
@@ -22,25 +23,27 @@ public class No6 {
     * */
     public static void main(String[] args) throws IOException {
         StringBuilder sb = new StringBuilder();
-        Map<String, Integer> listMap = new TreeMap<>();
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         long repeat = Arrays.stream(br.readLine().split(" "))
                 .mapToInt(Integer::parseInt)
                 .sum();
 
-        int cnt = 0;
-        for(int i = 0; i < repeat; i++){
-            String name = br.readLine();
-            listMap.put(name, listMap.getOrDefault(name, 0) + 1);
-            if(listMap.get(name) == 2) cnt++;
-        }
+        Map<String, Long> listMap = br.lines()
+                .limit(repeat)
+                .collect(Collectors.groupingBy(name -> name,                // 각 이름을 키로 사용
+                                                TreeMap::new,               // 결과를 TreeMap으로 수집 (오름차순)
+                                                // () -> new TreeMap<>(Comparator.reverseOrder()), // TreeMap 생성 (내림차순)
+                                                Collectors.counting()));    // 그룹별 요소 개수를 세어 Long 타입으로 저장
 
+        long cnt = listMap.values().stream()
+                        .filter(count -> count == 2)
+                        .count();
         sb.append(cnt).append("\n");
 
-        for(Map.Entry<String, Integer> entry : listMap.entrySet()) {
-            if(entry.getValue() == 2) sb.append(entry.getKey()).append("\n");
-        }
+        listMap.entrySet().stream()
+                        .filter(entry -> entry.getValue() == 2)
+                        .forEach(entry -> sb.append(entry.getKey()).append("\n"));
 
         System.out.println(sb);
     }
