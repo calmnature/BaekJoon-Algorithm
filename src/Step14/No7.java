@@ -2,6 +2,7 @@ package Step14;
 
 import java.io.*;
 import java.util.*;
+import java.util.stream.*;
 
 /*
     문제 접근
@@ -23,34 +24,26 @@ public class No7 {
             - Map<Integer, Boolean>으로 A집합, B집합 모든 원소를 넣는데 교집합이 아니면 true, 교집합이면 false로하여 false의 개수만 세어 A + B - 교집합 * 2로 풀이 접근
     * */
     public static void main(String[] args) throws IOException {
-        Map<Integer, Boolean> setMap = new HashMap<>();
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        StringTokenizer st = createST(br.readLine());
-        int A = Integer.parseInt(st.nextToken());
-        int B = Integer.parseInt(st.nextToken());
+        int[] size = Arrays.stream(br.readLine().split(" "))
+                .mapToInt(Integer::parseInt)
+                .toArray();
+        int A = size[0], B = size[1];
 
-        st = createST(br.readLine());
-        for(int i = 0; i < A; i++){
-            int number = Integer.parseInt(st.nextToken());
-            setMap.put(number, !setMap.getOrDefault(number, false));
-        }
+        Map<Integer, Boolean> setMap = Arrays.stream(br.readLine().split(" "))
+                .mapToInt(Integer::parseInt)
+                .boxed()
+                .collect(Collectors.toMap(key -> key, value -> true, (oldValue, newValue) -> !oldValue));
 
-        st = createST(br.readLine());
-        for(int i = 0; i < B; i++){
-            int number = Integer.parseInt(st.nextToken());
-            setMap.put(number, !setMap.getOrDefault(number, false));
-        }
+        Arrays.stream(br.readLine().split(" "))
+                .mapToInt(Integer::parseInt)
+                .forEach(key -> setMap.put(key, !setMap.getOrDefault(key, false)));
 
-        int intersection = 0;
-        for(Map.Entry<Integer, Boolean> entry : setMap.entrySet()){
-            if(!entry.getValue()) intersection++;
-        }
+        long intersection = setMap.values().stream()
+                .filter(value -> !value)
+                .count();
 
         System.out.println(A + B - intersection * 2);
-    }
-
-    private static StringTokenizer createST(String str){
-        return new StringTokenizer(str);
     }
 }
