@@ -2,6 +2,7 @@ package Step14;
 
 import java.io.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /*
     문제 접근
@@ -21,31 +22,22 @@ public class No5 {
             - 방법2) Map을 이용하여 디폴트 값을 0으로 잡고, 중복된 Key값(숫자 카드)가 들어오면 Value += 1
     * */
     public static void main(String[] args) throws IOException {
-        Map<Integer, Integer> cardMap = new HashMap<>();
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
 
-        int N = Integer.parseInt(br.readLine());
-        int[] sangCard = Arrays.stream(br.readLine().split(" "))
-                .mapToInt(Integer::parseInt)
-                .toArray();
-        for(int i = 0; i < N; i++){
-            if(cardMap.containsKey(sangCard[i])){
-                cardMap.put(sangCard[i], cardMap.get(sangCard[i]) + 1);
-            } else {
-                cardMap.put(sangCard[i], 1);
-            }
-        }
+        br.readLine();
+        Map<Integer, Integer> cardMap = Arrays.stream(br.readLine().split(" "))
+                .map(Integer::parseInt)
+                .collect(Collectors.toMap(key -> key, value -> 1, Integer::sum));
 
-        int M = Integer.parseInt(br.readLine());
-        int[] compareCard = Arrays.stream(br.readLine().split(" "))
-                .mapToInt(Integer::parseInt)
-                .toArray();
-        for(int i = 0; i < M; i++){
-            sb.append(cardMap.getOrDefault(compareCard[i], 0)).append(" ");
-        }
 
-        sb.deleteCharAt(sb.length() - 1);
-        System.out.println(sb);
+        br.readLine();
+        Arrays.stream(Arrays.stream(br.readLine().split(" "))
+                        .mapToInt(Integer::parseInt)
+                        .toArray())
+                        .mapToObj(i -> cardMap.getOrDefault(i, 0))
+                        .forEach(res -> sb.append(res).append(" "));
+
+        System.out.println(sb.toString().trim());
     }
 }
