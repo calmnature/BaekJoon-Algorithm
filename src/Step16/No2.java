@@ -33,10 +33,7 @@ public class No2 {
             else stack.push(number);
         }
 
-        int sum = 0;
-        while(!stack.isEmpty()){
-            sum += stack.pop();
-        }
+        int sum = stack.stream().mapToInt(Integer::intValue).sum();
 
         System.out.println(sum);
     }
