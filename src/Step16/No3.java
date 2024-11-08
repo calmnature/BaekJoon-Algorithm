@@ -1,6 +1,8 @@
 package Step16;
 
 import java.io.*;
+import java.util.Stack;
+
 /*
     문제 접근
         - 괄호가 쌍이 맞으면 VPS(Valid PS)
@@ -28,25 +30,27 @@ public class No3 {
 
         int T = Integer.parseInt(br.readLine());
         for(int i = 0; i < T; i++) {
+            boolean flag = true;
+            Stack<Character> stack = new Stack<>();
+
             String input = br.readLine();
-            sb.append(isValid(input) ? "Yes" : "No").append("\n");
+            int length = input.length();
+            for(int j = 0; j < length; j++){
+                char ch = input.charAt(j);
+                if(ch == '(') {
+                    stack.push(ch);
+                } else {
+                    if(stack.isEmpty()) {
+                        flag = false;
+                        break;
+                    }
+                    stack.pop();
+                }
+            }
+            if(!stack.isEmpty()) flag = false;
+            sb.append(flag ? "YES" : "NO").append("\n");
         }
 
         System.out.println(sb);
-    }
-
-    private static boolean isValid(String str) {
-        int length = str.length();
-        int count = 0;
-
-        for(int i = 0; i < length; i++){
-            char ch = str.charAt(i);
-            if(ch == '(') count++;
-            else count--;
-
-            if(count < 0) return false;
-        }
-
-        return count == 0;
     }
 }
