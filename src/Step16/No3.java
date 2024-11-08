@@ -1,7 +1,6 @@
 package Step16;
 
 import java.io.*;
-import java.util.*;
 /*
     문제 접근
         - 괄호가 쌍이 맞으면 VPS(Valid PS)
@@ -28,33 +27,26 @@ public class No3 {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         int T = Integer.parseInt(br.readLine());
-        for(int i = 0; i < T; i++){
-            Stack<Character> originStack = new Stack<>();
-            Stack<Character> newStack = new Stack<>();
-
+        for(int i = 0; i < T; i++) {
             String input = br.readLine();
-            int length = input.length();
-            for(int j = 0; j < length; j++){
-                originStack.push(input.charAt(j));
-            }
-
-            while(!originStack.isEmpty()){
-                char ch = originStack.pop();
-                if(ch == ')')
-                    newStack.push(ch);
-                else {
-                    if(newStack.isEmpty()){
-                        newStack.push(ch);
-                        break;
-                    }
-                    newStack.pop();
-                }
-            }
-
-            if(newStack.isEmpty()) sb.append("YES");
-            else sb.append("NO");
-            sb.append("\n");
+            sb.append(isValid(input) ? "Yes" : "No").append("\n");
         }
+
         System.out.println(sb);
+    }
+
+    private static boolean isValid(String str) {
+        int length = str.length();
+        int count = 0;
+
+        for(int i = 0; i < length; i++){
+            char ch = str.charAt(i);
+            if(ch == '(') count++;
+            else count--;
+
+            if(count < 0) return false;
+        }
+
+        return count == 0;
     }
 }
