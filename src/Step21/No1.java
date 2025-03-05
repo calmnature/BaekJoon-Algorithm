@@ -1,8 +1,7 @@
 package Step21;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.util.stream.LongStream;
 
 /*
     문제 접근
@@ -22,13 +21,9 @@ public class No1 {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int N = Integer.parseInt(br.readLine());
 
-        System.out.println(recursive(N));
-    }
+        long factorial = LongStream.rangeClosed(1, N)
+                .reduce(1, (a, b) -> a * b);
 
-    private static long recursive(int N) {
-        if(N <= 1) {
-            return 1;
-        }
-        return N * recursive(N-1);
+        System.out.println(factorial);
     }
 }
