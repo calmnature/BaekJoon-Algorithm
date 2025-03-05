@@ -22,17 +22,14 @@ public class No2 {
     public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int n = Integer.parseInt(br.readLine());
-        fiboArr = new int[n+1];
-        if(n >= 1) {
-            fiboArr[1] = 1; // 만약 n = 0이면 에러가 발생하여 조건문 추가
-        }
-        fibonacci(n);
-        System.out.println(fiboArr[n]);
+        fiboArr = new int[n + 1];
+        int result = fibonacci(n);
+        System.out.println(result);
     }
 
-    private static void fibonacci(int n) {
-        for(int i = 2; i <= n; i++) {
-            fiboArr[i] = fiboArr[i - 1] + fiboArr[i - 2];
-        }
+    private static int fibonacci(int n) {
+        if(n <= 1) return n; // 1이하라면 그대로 n 그대로 반환
+        if(fiboArr[n] != 0) return fiboArr[n]; // 이미 계산된 값이면 그대로 반환
+        return fiboArr[n] = fibonacci(n - 1) + fibonacci(n - 2);
     }
 }
