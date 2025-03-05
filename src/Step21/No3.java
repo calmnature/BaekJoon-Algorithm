@@ -18,29 +18,30 @@ public class No3 {
             - 전역 변수 count를 선언하고, for문이 시작될 때 0으로 초기화
             - isPalindrome 함수와 recursion 함수가 종료되면 StringBuilder에 넣고 테스트케이스 개수만큼 반복
     * */
-    static int count;
     public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder sb = new StringBuilder();
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
         int T = Integer.parseInt(br.readLine());
         for(int i = 0; i < T; i++){
-            count = 0;
             String s = br.readLine();
-            int result = isPalindrome(s);
-            sb.append(result).append(" ").append(count).append("\n");
+            int[] result = isPalindrome(s);
+            bw.write(result[0] + " " + result[1] + "\n");
         }
-        System.out.println(sb);
+        bw.flush();
+        bw.close();
     }
 
-    private static int isPalindrome(String s) {
-        return recursion(s, 0, s.length() - 1);
-    }
+    private static int[] isPalindrome(String s) {
+        int count = 0;
+        int left = 0, right = s.length() - 1;
+        while(left <= right) {
+            count++;
+            if(s.charAt(left) != s.charAt(right)) return new int[]{0, count};
+            left++; right--;
+        }
 
-    private static int recursion(String s, int left, int right) {
-        count++;
-        if(left >= right) return 1;
-        else if(s.charAt(left) != s.charAt(right)) return 0;
-        else return recursion(s, left + 1, right - 1);
+        if(s.length() % 2 == 0) count++;
+        return new int[]{1, count};
     }
 }
