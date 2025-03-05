@@ -18,16 +18,21 @@ public class No2 {
                 n = 1이면 return 1
                 n = 0이면 return 0
     * */
+    static int[] fiboArr;
     public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int n = Integer.parseInt(br.readLine());
-        int result = fibonacci(n);
-        System.out.println(result);
+        fiboArr = new int[n+1];
+        if(n >= 1) {
+            fiboArr[1] = 1; // 만약 n = 0이면 에러가 발생하여 조건문 추가
+        }
+        fibonacci(n);
+        System.out.println(fiboArr[n]);
     }
 
-    private static int fibonacci(int n) {
-        if(n == 0) return 0;
-        else if(n == 1) return 1;
-        return fibonacci(n - 1) + fibonacci(n - 2);
+    private static void fibonacci(int n) {
+        for(int i = 2; i <= n; i++) {
+            fiboArr[i] = fiboArr[i - 1] + fiboArr[i - 2];
+        }
     }
 }
